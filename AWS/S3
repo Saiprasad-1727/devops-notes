@@ -1,0 +1,183 @@
+
+=================================
+AWS S3 (Simple Storage Service)
+=================================
+
+-> S3 is a storage service in AWS cloud.
+
+-> S3 supports unlimited storage.
+
+-> Using S3 we can store any amount of data from anywhere at anypoint of time.
+
+-> S3 supports object based storage (files).
+
+-> We can upload & download objects (files) at any point of time using S3
+
+		One Object = One file
+
+-> In S3, we need to create buckets to store data
+
+Note: In one bucket we can store group of objects.
+
+Note: Every bucket should have unique name.
+
+-> When we create a bucket, end-point url will be generated to access bucket.
+
+-> When we upload object into bucket, every object will get its own end-point url.
+
+Note: By default, buckets and objects are private (we can them as public).
+
+-> We can create multiple buckets in s3.
+
+=================================
+Static Website Hosting using S3
+=================================
+
+-> Website nothing but collection of web pages.
+
+Ex: login page, regiter page, services, about us page, contact us page...
+
+-> Websites are divided into 2 types
+
+	1) static website
+	2) dynamic website
+
+-> The website which gives same response/content for all users is called as static website.	
+
+-> The website which gives response based on user is called as Dynamic website.
+
+
+Step-1) Create s3 bucket with unique name
+
+Step-2) Upload website files & folders into bucket with public read-access
+
+Step-3) Enable Static website hosting (in bucket properties)
+
+			index-document : index.html
+			error-document : error.html
+
+Note: After enabling static website hosting it generates end-point URL for our website.
+
+Step-4) Access our website using website endpoint url.
+
+
+===================
+S3 Storage Classes
+===================
+
+=> Storage classes are used to specify how frequently we want to access our objects from S3.
+
+=> We have several storage classes in s3 like below..
+
+1) standard (default) : To access object more than once in a month
+
+2) Intelligent - Tiering : Unknown access patterns
+
+3) Standard-IA : Infrequent Accesed Data (Only once in month)
+
+4) One Zone-IA : Stored in single availability zone (once in a month)
+
+5) Glacier Instance Retrieval : Long Live Archieve Data
+  (once in quarter -> Milli Seconds)
+
+6) Glacier Flexible Retrieval : Once in a year (Minutes to Hours)
+
+7) Glacier Deep Archieve : Less Than once in a year (Hours to download)
+
+8) Reduced Redundency : Not Cost Effective (Not recommended)
+
+
+============
+Versioning
+============
+
+=> It is used to maintain multiple variants of same file.
+
+=> By default versioning will be disabled for S3 bucket.
+
+=> As versioning is disabled, when we upload file again it will override old file.
+
+=> If we don't want to replace old objects from bucket then we can enable Versioning.
+
+=> Versioning we will enable at bucket level and it is applicable at object level.
+
+Note: Once we enable versioning, we can't disable that but we can suspend it.
+
+
+================
+Object Locking
+================
+
+-> It is used to enable the feature WORM (Write once read many times) model.
+
+-> We can enable object lock on versioning enabled buckets.
+
+-> Object Lock will be enabled at bucket level and it is applicable at object level.
+
+NOte: If we enable object locking then versionining will be enabled by default.
+
+=================================
+What is Transfer Accelaration
+=================================
+
+=> It is used to speed up data transfer process in s3 bucket.
+
+=> When we enable Transfer Accelaration it provides endpoint url to upload the data to s3 bucket quickly.
+
+Note: If we enable Transfer Accelaration bill will be generated.
+
+
+
+						    janmabhoomi (6 hours) -> 300 RS
+			Hyd ------------------------------------------> Vijaywada
+
+
+								Vande bharat (3 hours) -> 1200 RS
+			Hyd ------------------------------------------> Vijaywada
+
+
+===============
+AWS S3 Limits	
+===============
+
+=> By default we can create upto 100 s3 buckets per aws account. However we can request AWS support team to increase the limit.
+
+=> Individual object size can be upto 5TB. For uploading large object we can use multipart upload.
+
+Note: In one bucket we can upload unlimited objects.
+
+
+=========================
+Realtime Usecases of S3
+=========================
+
+1) Application files (images,audios, videos, docs...)
+
+2) DB backup files
+
+3) EBS Volume Snapshots
+
+4) Server Log files
+
+
+===========
+Summary
+===========
+
+1) What is AWS S3 & Why ?
+
+2) S3 Buckets & Objects
+
+3) Static website Hosting using S3
+
+4) S3 Storage Classes
+
+5) Versioning
+
+6) Bucket Locking
+
+7) Transfer Accelaration
+
+8) S3 Limits
+
+9) Real-Time usecases
