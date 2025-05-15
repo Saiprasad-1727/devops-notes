@@ -1,0 +1,575 @@
+
+=> Elastic Compute Cloud
+
+=> It is Most demanded service in AWS
+
+=> It is Used to create Virtual Machines in AWS cloud
+
+=> EC2 VM is called as EC2 instance
+
+	EC2 Instance = Computer / Server / VM / Virtual Machine / V Box
+
+=> EC2 instance is re-sizable (we can change configuration based on demand)
+
+=> EC2 is a paid service (hourly billing)
+
+=> EC2 VM Minimum billing period is 1 hour
+
+			9:00 AM to 9:15 AM => 15 mins => 1 hour billing
+
+			9:30 AM to 9:45 AM => 15 mins => 1 hour billing
+
+Note: To encourage beginners, AWS provided t2.micro/t3.micro for 1 year free
+ (monthly 750 hours)
+
+=> EC2 VM will have storage with EBS service
+
+				Ec2 VM with Windows OS : 30 GB (default)
+
+				EC2 VM with Linux OS : 8 GB (default)
+
+				EBS max capacity : 16 TB (16000 GB)
+
+=> For EC2 instances network will be provided by VPC service.
+
+=> For EC2 vm creation we will use AMI (Amazon Machine Image)
+
+Note: AMI represents configuration required for machine
+
+			- Windows AMI
+			- Amazon Linux AMI
+			- Ubuntu AMI
+			- RedHAT AMI
+
+
+=> To secure EC2 VM we will use Key-Pair (public key & private key)
+
+=> To allow incoming and outgoing traffic for EC2 we will use Security Group
+
+Note-1 : One Key Pair we can use for multiple EC2 instances
+
+Note-2 : One Security Group (SG) we can use for multiple EC2 instances.
+
+===========================
+Lab Practicals on EC2 VM
+===========================
+
+1) Create Key Pair (.pem file)
+
+		- public key (aws will keep it)
+		- private key (we will get it)
+
+2) Create Security Group and update Inbound Rules to allow traffic
+
+		Windows RDP : 3389
+		Linux SSH  : 22
+		HTTP : 80
+		HTTPS : 443
+		MYSQL : 3306		
+
+3) Create EC2 Instance
+
+		- Select AMI (Windows AMI)
+		- Select Instance Type
+		- Select Key Pair
+		- Select Security Group
+		- Select EBS Volume
+		- Launch Instance
+
+
+4) Connect to EC2 instance using RDP client.		
+
+
+=> EC2 instances have below categories
+
+		a) On Demand instances (no commitment)
+
+		b) Reserved Instances (Booking for 1 or 3 years)
+
+		c) Spot Request (bidding)
+
+		d) Dedicated Host (Physical machine)
+
+===============================
+Types of IP's in AWS Cloud
+===============================
+
+=> We have 3 types of IP's in AWS cloud
+
+1) private ip
+
+2) public ip
+
+3) elastic ip
+
+=> Private IP is a fixed IP in AWS. It is used for internal communication (With in VPC).
+
+=> public ip is a dynamic IP in aws. It is used to connect with EC2 VM from outside.
+=> When we restart our VM then public ip gets changed.
+
+
+			private ip : 172.31.34.139
+			public ip : 13.127.100.70   (before re-start)
+			public ip : 13.201.59.162 (after re-start)
+
+=> If we want fixed public ip then we need to use Elastic IP.
+=> Elastic IPs are commercial (bill will be generated).
+
+		 Elastic ip : 3.6.99.192
+
+==============================
+Lab Practicals on Elastic IP
+=============================
+
+Step-1 : Allocate Elastic IP (Getting from AWS)
+
+Step-2 : Associate Elastic IP with EC2 VM
+
+Step-3 : Restart VM and check public ip (it will not change)
+
+Step-4 : De-Associate Elastic IP
+
+Step-5 : Release Elastic IP to AWS (to avoid billing)
+
+
+
+
+==============
+What is EBS
+==============
+
+=> EBS stands for Elastic Block Store
+
+=> It is block level storage device (Hard Disc / SSD)
+
+=> When we create ec2 instance then ebs volume gets created automatically.
+
+Note: If we remove EBS volume from EC2 instance then we can't start/use that EC2 instance.
+
+=> In EBS we have 2 types of volumes (storages)
+
+		1) Root Volume
+
+		2) Additional Volume
+
+Ntoe: When we launch EC2 instance by default we will get one Root volume.
+
+=> Root volume is mandatory to launch EC2 instance.
+
+=> If we remove root volume from EC2 then we can't start/use that instance.
+
+=> Additional EBS volumes are optional devices (we can add/remove)
+
+=> For windows VM, we will get 30 GB as default volume size.
+
+=> For Linux VM, we will get 8 GB as default volume size.
+
+Note: EBS volume can have upto 16 TB for IOPS (io2) we have 65 TB.
+
+
+=> One EC2 VM can have multiple EBS volumes.
+
+=> One EBS volume can be attached to one EC2 VM at a time..
+
+=> EBS volumes are Availability Zone Specific
+
+			Mumbai : ap-south-1
+
+					ap-south-1a
+					ap-south-1b
+					ap-south-1c	
+
+=================
+EBS Volume Types
+=================
+
+=> We have 5 types of EBS volumes
+
+	1) General Purpose Volume (Min: 1 GiB, Max: 16384 GiB)
+
+	2) Provisioned IOPS (io1) (Min: 4 GiB, Max: 16384 GiB)
+
+					*(io2) => Min: 4 GiB, Max: 65536 GiB
+
+	3) Cold HDD (Min: 125 GiB, Max: 16384 GiB)
+
+	4) Throuput Optimized (Min: 125 GiB, Max: 16384 GiB)
+
+	5) Magnetic (standard) (Min: 1 GiB, Max: 1024 GiB)
+
+
+====================================
+Lab Task on EBS Additional Volumes
+====================================	
+
+1) Create EC2 VM (VM-1) (amazon linux ami) - we will get EBS root vol 8 GB
+
+2) Create Additonal EBS Vol with 10 GB (check AZ)
+
+3) Attach Additional Volume to EC2 VM-1
+
+Note: Now EC2 Vm-1 will have 2 EBS volumes (root vol + additional vol)
+
+4) Connect with VM-1 and check volumes attached
+
+		$ lsblk
+
+5) Store the data in additional volume using mounting with below commands
+
+			$ sudo mkfs -t ext4 /dev/xvdb
+			$ mkdir ashokit
+			$ sudo mount /dev/xvdb ashokit
+			$ cd ashokit
+			$ sudo touch f1.txt f2.txt
+
+6) Detach additional volume from EC2 VM-1
+
+7) Create New EC2 VM (VM-2) and attach EBS additional volume to EC2 VM-2
+
+8) Check the data is present or not.
+
+		$ lsblk
+		$ mkdir demo
+		$ sudo mount /dev/xvdb demo
+		$ ls -l demo
+
+Note: Once practice is completed, detach additional volume and delete it to avoid billing.
+
+======================================================
+Q-1) How to connect with EC2 when we lost pem file ?
+Q-2) How to recover EC2 vm when we lost pem file ?
+======================================================
+
+
+==========
+Snapshots
+==========
+
+=> Snapshots are used for volumes backup
+
+		- snapshots are region specific
+		- volumes are AZ specific
+
+=> From Volume we can create snapshot and from snapshot we can create volume
+
+		volume ------> snapshot ---------> volume
+
+=> Snapshot can't be attached to EC2 instance directley (volumes can be attached directley).
+
+=========================================================
+Q) How to copy the data from 1a zone VM to 1b zone VM ?
+=========================================================
+
+Step-1 : Create snapshot for 1a VM volume
+
+Step-2 : From snapshot create volume in 1b zone
+
+Step-3 : Attached newly created 1b volume to 1b VM.
+
+
+
+Note: We can automate snapshots creating using Life Cycle Manager.
+
+		Frequency : Daily/Weekly/Monthly/Yearly
+
+
+
+1) what is userdata
+
+2) hosting static website
+
+3) load balancer
+
+4) OSI model
+
+
+=================================
+What is user-data in EC2 VM ?
+=================================
+
+- It is used to execute script while launching ec2 machine.
+
+- User data will execute only once 
+
+- Create EC2 VM (amazon linux) with below user data
+
+#! /bin/bash
+
+sudo su
+yum install httpd -y
+cd /var/www/html
+echo "<html><h1>Life Insurance Server - 1</h1></html>" > index.html
+service httpd start
+
+
+Note: Once EC2 vm started enable HTTP protocol in EC2 VM security group inbound rules.
+
+- Access static website using EC2 VM public ip.
+
+========================
+What is Load Balancer ?
+========================
+
+=> When we run our application in single server then we have to face below challenges
+
+	1) One server should handle all reqs
+	2) Burden will increase on server
+	3) Response will be delayed for clients
+	4) Server can crash
+	5) Single Point Of Failure
+	6) Business Loss
+
+=> To avoid above problems, we will run our application using Load Balancer.
+
+=> Load Balancer is used to distribute load to multiple servers in round robbin fashion.
+
+=> We have below advantages with Load Balancer
+
+	1) App will run in multiple severs
+	2) Load will be distributed
+	3) Burden will be reduces on servers
+	4) Fast Performance
+	5) High Availability
+
+
+=> In AWS we have 4 types of Load Balancers
+
+	1) Application Load Balancer (ALB)
+	2) Network Load Balancer (NLB)
+	3) Gateway Load Balancer (GLB)
+	4) Classic Load Balancer (previous generation)
+
+
+=========================
+Load Balancer Lab Task
+=========================
+
+Step-1) Create EC2 VM-1 with below user data
+
+#! /bin/bash
+
+sudo su
+yum install httpd -y
+cd /var/www/html
+echo "<html><h1>Life Insurance Server - 1</h1></html>" > index.html
+service httpd start
+
+
+Step-2) Create EC2 VM-2 with below user data
+
+#! /bin/bash
+
+sudo su
+yum install httpd -y
+cd /var/www/html
+echo "<html><h1>Life Insurance Server - 2</h1></html>" > index.html
+service httpd start
+
+
+Step-3) Add these 2 instances to one "Target Group"
+
+
+Step-4) Create Load Balancer with Target Group (ALB)
+
+			Scheme : Internet Facing
+
+Note: ALB runs on HTTP protocol with 80 port number
+
+Step-5) Access Load Balancer DNS in browser
+
+(it will route the requests to our servers in round robbin fashion)
+
+
+Note: After practice completed then delete load balancer to avoid billing.
+
+============
+Assignment
+============
+
+##### Microservices Load Balancing with multiple Target Groups : https://www.youtube.com/watch?v=QvEJ8--zneU ####
+
+
+============================
+Monolithic Vs Microservices
+============================
+
+=> If we develop all the functionalities in single app then it is called as monolith application.
+
+Note: We can use single target group when we have monolith application
+
+
+=> If we develop all the functionalities using different apis then it is called as Microservices architecture.
+
+Note: We need to use multiple target groups when we have microservices application.
+
+
+=====================
+What is OSI model ?
+=====================
+
+=> Open Systems Interconnection
+
+=> OSI model represents how request will transfer from client to server
+
+=> OSI model contains 7 layers
+
+
+Layer-1 : Physical Layer
+
+Layer-2 : Data Link Layer
+
+Layer-3 : Network Layer
+
+Layer-4 : Transport Layer
+
+Layer-5 : Session Layer
+
+Layer-6 : Presentation Layer
+
+Layer-7 : Application Layer
+
+
+Physical Layer (L1) :  Deals with the physical connection between devices. It defines the hardware elements 
+                        like cables, switches, and the electrical/optical signals used for data transmission.
+
+Data Link Layer (L2) : Provides node - to - node data transfer. It is responsible for physical addressing of devices.
+
+Network Layer(L3) : Manages routing of data packets between devices.
+
+Transport Layer (L4) : Ensures reliable data transfer between devices.
+
+Session Layer (L5) : Manages session between application (connection between client and server).
+
+Presentation Layer (L6) : Handles data packet translation. It ensures that data is in readable format.
+
+Application Layer(L7) : Provides network serviecs directley to end user to access application.
+
+
+=> Application Load Balancer (ALB) will work at Layer-7 (Application layer)
+
+	ex: http, https protocols
+		Advanced Routing
+		header based routing (Key-value)
+		path based routing (url based)
+
+=> Network Load Balancer (NLB) will work at Layer-4 (Transport Layer)
+	
+	ex: TCP, UDP
+		for gaming servers
+		for video streaming
+
+=> Gateway Load Balancer (GLB) will work at Layer-3 (Network Layer)	
+
+	Ex: Thir party appliances
+		Firewalls
+		VPNs
+		High Security	
+
+
+=====================
+Auto Scaling
+=====================
+
+=> It is used to adjust the capacity required to handle the load of our application
+
+Ex: For big billon day sale we can't guess traffic
+
+=> If requests are increasing then servers should be increased  and if requests are decreasing then servers should be reduced.
+
+=> We have below advantages with Auto Scaling
+
+1) Cost Management
+
+2) High Availability
+
+3) Fault Tolerance
+
+
+=> To create Auto Scaling group we will use Launch Template.
+=> Launch Template is used to specify configuration required to launch new VM.
+
+
+===================
+Assignment on AMI
+====================
+
+1) Create Linux VM (Ex: VM1)
+2) Host static website in linux vm1
+3) Create AMI from linux vm1 (AMI Name : ashokit_ami)
+4) Create new linux vm (Ex: VM2) using ashokit_ami
+5) Verify static website working in new linux vm (Vm2)
+
+====================
+EC2 Instance Types
+====================
+
+=> Amazon EC2 (Elastic Compute Cloud) offers a variety of instance types to suit different use cases
+
+1) General Purpose
+
+	- T series : t2, t3, t4...
+
+	- M series : m6g, m5, m5a, m5n...
+
+2) Compute Optimized
+
+	- C series : c7gm c6i, c6g, c5, c5a
+
+3) Memory Optimized
+	
+	- R series : r6g, r5, r5a, r5n
+
+	- X series : x2gd, x1e
+
+4) Storage Optimized
+
+	- I series : i4i, i3, i3en
+
+	- D series : d2
+
+5) Accelarated Computing
+
+	- P series : p4, p3, p2
+
+	- G series : g5, g4ad, g4dn
+
+	- inf series : inf1
+
+6) High Performance Computing
+
+	- H series : hpc6id
+
+
+=========
+Summary
+=========
+
+1) What is Ec2 & Why Ec2 ?
+
+2) What is AMI & How to create AMI ?
+
+3) What is Key Pair ?
+
+4) What is Security Group ?
+
+5) What is EBS (Volumes & Snapshots)
+
+6) Launching Windows VM & connect with RDP
+
+7) Launching Linux VM & connect with SSH
+
+8) Static Website Hosting in EC2
+
+9) Load Balancers (LBR)
+
+10) Target Group
+
+11) OSI Model
+
+12) Monolithic Vs Microservices
+
+13) Launch Template
+
+14) Auto Scaling
+
+14) Types of IPs
