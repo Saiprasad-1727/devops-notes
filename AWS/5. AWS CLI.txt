@@ -1,0 +1,144 @@
+==========
+AWS CLI 
+==========
+
+AWS provides multiple ways to configure and manage infrastructure
+
+1) AWS Management Web Console (browser)
+
+2) AWS CLI (Command Line Interface)
+
+3) Cloud Formation
+
+4) Terraform
+
+===========================
+Using the AWS web console
+===========================
+
+=> It is a graphical user interface to connect with various AWS resources, their configuration, modification, etc. 
+
+=> It is simple to use and does not require knowledge of scripting.
+
+
+============================
+AWS Command Line Interface: 
+============================
+
+Usually, the script provides you with the flexibility to manage multiple AWS resources, infrastructures effectively.
+
+============================
+Configuring AWS CLI
+============================
+
+1) Create AWS Account
+
+2) Login into AWS account & generate access key.
+
+	Access Key : AKIATCKAMSJDE7Y
+	Secret Key : 2kAO0/xcMycCzWqBhqCTLSkIIq
+
+Note: Not recommended to use root user access keys	
+
+3) Download and Install AWS CLI s/w	
+
+	For windows : https://awscli.amazonaws.com/AWSCLIV2.msi
+
+4) 	Once Installation completed then execute below commands
+
+		$ aws --version 
+
+		$ aws configure
+
+Note: AWS configure command will ask for access key, secret access key, region and output format.
+
+Note: output we can give as json or table or text
+
+
+#########  CLI Documentation : https://docs.aws.amazon.com/cli/latest/reference/  ##########
+
+
+================================================
+Working with AWS S3 Service using AWS CLI
+================================================
+
+=> AWS S3 is an object storage service.
+
+# list down all buckets available
+$ aws s3 ls
+
+# create bucket in s3
+$ aws s3 mb s3://ashokit097978
+
+# copy file into bucket
+$ aws s3 cp test.txt s3://ashokit097978/test.txt
+
+# remove file from bucket
+$ aws s3 rm s3://ashokit097978/test.txt
+
+# remove bucket
+$ aws s3 rb s3://ashokit097978
+
+==========================
+Working with EC2 AWS CLI
+==========================
+
+# list down all ec2 instances available
+$ aws ec2 describe-instances
+
+# create key-pair in ec2
+$ aws ec2 create-key-pair --key-name test --output text > test.pem
+
+# Launch EC2 instance
+$ aws ec2 run-instances --image-id ami-02b49a24cfb95941c --instance-type t2.micro --key-name test
+
+Instance Id : i-0f1883f25344100b3
+
+# stop ec2 instance
+$ aws ec2 stop-instances --instance-ids i-0f1883f25344100b3
+
+# start ec2 instance
+$ aws ec2 start-instances --instance-ids i-0f1883f25344100b3
+
+# terminate ec2 instance
+$ aws ec2 terminate-instances --instance-ids i-0f1883f25344100b3
+
+
+================================
+Working with AWS RDS using CLI
+================================
+
+# creating RDS instance
+
+$ aws rds create-db-instance --db-instance-identifier test-mysql-instance --db-instance-class db.t3.micro --engine mysql  --master-username admin --master-user-password secret99 --allocated-storage 20
+
+# delete RDS instance
+$ aws rds delete-db-instance --db-instance-identifier test-mysql-instance  --skip-final-snapshot --no-delete-automated-backups
+
+=============
+Assignment
+=============
+
+1) Create below IAM resources using AWS CLI
+
+		a) User
+		b) User Group
+		c) Policy
+		d) Role
+
+=======================================
+Installing AWS CLI in Ubunut Linux VM
+=======================================
+
+$ sudo apt-get install -y python-dev python-pip
+$ sudo pip install awscli
+$ aws --version
+$ aws configure
+
+=======================================
+Installing AWS CLI in Amazon Linux VM
+=======================================
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
